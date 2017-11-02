@@ -7,7 +7,12 @@ Learning Node, Express, and Testing
 ```
   npm install
 ```
-*then:*
+*run server one time:*
 ```
-  node server.js
+  npm start
+```
+
+*hot reloading:*
+```
+  npm run dev
 ```
