@@ -12,6 +12,22 @@ const app = express();
 
 app.use(bodyParser.json());
 
+app.get('/api/todos', (req, res) => {
+  Todo.find({})
+    .then((todos) => {
+      res.send({
+        status: 'OK',
+        todos
+      });
+    })
+    .catch((err) => {
+      res.send({
+        status: 'FAIL',
+        message: err
+      });
+    });
+});
+
 app.post('/api/todos/', (req, res) => {
   const todo = new Todo({
     text: req.body.text
