@@ -1,7 +1,7 @@
 # node-todos
 Learning Node, Express, and Testing
 
-*NOTE:* You need to have NodeJS installed on your machine.
+*Requirements:* You need to have NodeJS installed on your machine.
 
 ### Running
 
