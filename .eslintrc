@@ -11,6 +11,7 @@
 		"comma-dangle": ["error", "never"],
 		"no-console": "warn",
 		"consistent-return": "off",
+		"no-underscore-dangle": "warn",
 		"no-unused-vars": [
 			"error",
 			{
