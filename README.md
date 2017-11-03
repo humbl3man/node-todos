@@ -3,10 +3,13 @@ Learning Node, Express, and Testing
 
 *NOTE:* You need to have NodeJS installed on your machine.
 
+### Running
+
 *To get started:*
 ```
   npm install
 ```
+
 *run server one time:*
 ```
   npm start
@@ -15,4 +18,16 @@ Learning Node, Express, and Testing
 *hot reloading:*
 ```
   npm run dev
+```
+
+### Testing
+
+*One time test*
+```
+  npm test
+```
+
+*Test watch*
+```
+  npm run test-watch
 ```
