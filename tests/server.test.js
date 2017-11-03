@@ -1,15 +1,19 @@
 const request = require('supertest');
 const { app } = require('./../app');
 const { Todo } = require('./../models/todo');
+const { ObjectID } = require('mongodb');
 
 const sampleTodos = [
   {
+    _id: new ObjectID(),
     text: 'todo'
   },
   {
+    _id: new ObjectID(),
     text: 'todo #2'
   },
   {
+    _id: new ObjectID(),
     text: 'todo #3'
   }
 ];
@@ -22,7 +26,7 @@ beforeEach((done) => {
     });
 });
 
-describe('server', () => {
+describe('POST /api/todos', () => {
   it('should POST /api/todos', (done) => {
     const text = 'new todo';
 
@@ -71,13 +75,48 @@ describe('server', () => {
           });
       });
   });
+});
 
+describe('GET /api/todos', () => {
   it('should GET list of todos from /api/todos', (done) => {
     request(app)
       .get('/api/todos')
       .expect(200)
       .expect((res) => {
         expect(res.body.todos.length).toBe(3);
+      })
+      .end(done);
+  });
+});
+
+describe('GET /api/todos/:id', () => {
+  it('should return todo doc - 200 OK', (done) => {
+    request(app)
+      .get(`/api/todos/${sampleTodos[0]._id.toHexString()}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.text).toBe(sampleTodos[0].text);
+      })
+      .end(done);
+  });
+
+  it('should return a 404', (done) => {
+    const objID = new ObjectID();
+    request(app)
+      .get(`/api/todos/${objID.toHexString()}`)
+      .expect(404)
+      .expect((res) => {
+        expect(res.body).toEqual({});
+      })
+      .end(done);
+  });
+
+  it('should return a 400', (done) => {
+    request(app)
+      .get('/api/todos/123')
+      .expect(400)
+      .expect((res) => {
+        expect(res.body).toEqual({});
       })
       .end(done);
   });
