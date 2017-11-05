@@ -12,5 +12,5 @@ const PORT = process.env.PORT || 3000;
 // TodoController(app);
 
 app.listen(PORT, () => {
-  console.log(`start server on PORT ${PORT}`);
+  console.log(`start server at PORT ${PORT}`);
 });
