@@ -1,7 +1,7 @@
 {
 	"name": "node-todos",
-	"version": "1.0.0",
-	"description": "",
+	"version": "1.0.1",
+	"description": "Learn Node, Express, and Testing",
 	"main": "server.js",
 	"scripts": {
 		"dev": "nodemon server.js",
