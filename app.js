@@ -97,6 +97,51 @@ app.delete('/api/todos/:id', (req, res) => {
     .catch(err => res.status(400).send({}));
 });
 
+// PATCH /api/todo/:id
+
+app.patch('/api/todos/:id', (req, res) => {
+  const { id } = req.params;
+  const { text, completed } = req.body;
+  const body = {};
+
+  if (!ObjectID.isValid(id)) {
+    return res.status(400).send({});
+  }
+
+  body.text = text;
+  body.completed = completed;
+
+  if (typeof completed === 'boolean' && completed) {
+    body.completedAt = new Date().getTime();
+  } else {
+    body.completed = false;
+    body.completedAt = null;
+  }
+
+  Todo.findByIdAndUpdate(
+    id,
+    {
+      $set: body
+    },
+    {
+      new: true
+    }
+  )
+    .then((todo) => {
+      if (!todo) {
+        return res.status(400).send({});
+      }
+
+      res.status(200).send({
+        status: 'UPDATED',
+        todo
+      });
+    })
+    .catch((err) => {
+      res.status(400).send({});
+    });
+});
+
 app.get('/api/users/all', (req, res) => {
   res.send({
     status: 'OK'
