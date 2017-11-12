@@ -72,6 +72,31 @@ app.post('/api/todos/', (req, res) => {
     });
 });
 
+app.delete('/api/todos/:id', (req, res) => {
+  const { id } = req.params;
+
+  if (!ObjectID.isValid(id)) {
+    return res.status(400).send({});
+  }
+
+  Todo.findOneAndRemove({
+    _id: id
+  })
+    .then((todo) => {
+      if (!todo) {
+        return res.status(400).send({});
+      }
+
+      const statusObj = {
+        status: 'DELETED',
+        todo
+      };
+
+      res.status(200).send(statusObj);
+    })
+    .catch(err => res.status(400).send({}));
+});
+
 app.get('/api/users/all', (req, res) => {
   res.send({
     status: 'OK'
