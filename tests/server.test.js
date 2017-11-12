@@ -121,3 +121,50 @@ describe('GET /api/todos/:id', () => {
       .end(done);
   });
 });
+
+describe('DELETE /api/todos/:id', () => {
+  it('should return 200 - OK', (done) => {
+    const id = sampleTodos[0]._id;
+
+    request(app)
+      .delete(`/api/todos/${id.toHexString()}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.todo.text).toEqual(sampleTodos[0].text);
+      })
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+
+        Todo.findById(id)
+          .then((todo) => {
+            expect(todo).toBeFalsy();
+            done();
+          })
+          .catch((e) => {
+            done(e);
+          });
+      });
+  });
+
+  it('should return 400 - Todo does NOT exist', (done) => {
+    request(app)
+      .delete(`/api/todos/${new ObjectID().toHexString()}`)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body).toEqual({});
+      })
+      .end(done);
+  });
+
+  it('should return 400 - Invalid todo format', (done) => {
+    request(app)
+      .delete('/api/todos/12345')
+      .expect(400)
+      .expect((res) => {
+        expect(res.body).toEqual({});
+      })
+      .end(done);
+  });
+});
